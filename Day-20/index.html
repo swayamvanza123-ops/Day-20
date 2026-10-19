@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InventoryPro | Business Management</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <a class="brand" href="#dashboard"><span class="brand-logo">I</span><span>InventoryPro<small>Business Suite</small></span></a>
+    <p class="nav-title">WORKSPACE</p>
+    <nav>
+      <a class="nav-link active" href="#dashboard">▦ Dashboard</a>
+      <a class="nav-link" href="#products">▣ Products</a>
+      <a class="nav-link" href="#suppliers">♙ Suppliers</a>
+      <a class="nav-link" href="#sales">↗ Sales</a>
+      <a class="nav-link" href="#expenses">₹ Expenses</a>
+      <a class="nav-link" href="#profitReport">▤ Profit Report</a>
+    </nav>
+    <div class="sidebar-bottom"><span class="online-dot"></span><span>Local database active</span></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><span class="eyebrow">BUSINESS OVERVIEW</span><h1 id="pageTitle">Dashboard</h1><p class="muted">Manage your inventory, sales, suppliers and expenses.</p></div>
+      <div class="date-chip">📅 <span id="todayLabel"></span></div>
+    </header>
+
+    <section id="dashboard" class="section">
+      <div class="stats-grid">
+        <article class="stat-card"><div class="stat-top"><span>Total Products</span><span class="stat-icon purple">▣</span></div><h2 id="statProducts">0</h2><p>Different products</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Total Stock</span><span class="stat-icon blue">▤</span></div><h2 id="statStock">0</h2><p>Units in inventory</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Sales Revenue</span><span class="stat-icon green">↗</span></div><h2 id="statSales">₹0</h2><p>Before discounts</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Low Stock</span><span class="stat-icon orange">!</span></div><h2 id="statLow">0</h2><p>Products with 5 or fewer units</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Suppliers</span><span class="stat-icon blue">♙</span></div><h2 id="statSuppliers">0</h2><p>Registered suppliers</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Total Expenses</span><span class="stat-icon pink">₹</span></div><h2 id="statExpenses">₹0</h2><p>All expense records</p></article>
+      </div>
+      <div class="panel">
+        <div class="panel-heading"><div><h3>Inventory Overview</h3><p>Current products and stock levels</p></div><a class="small-link" href="#products">Manage products →</a></div>
+        <div id="dashboardProducts" class="mini-product-grid"></div>
+      </div>
+    </section>
+
+    <section id="products" class="section">
+      <div class="section-heading"><div><h2>Product Management</h2><p>Add products, track stock and maintain purchase costs.</p></div></div>
+      <div class="panel">
+        <h3 id="productFormTitle">Add Product</h3>
+        <form id="productForm" class="form-grid">
+          <input id="productId" type="hidden">
+          <div class="field"><label for="productName">Product Name *</label><input id="productName" required minlength="2" placeholder="e.g. Dell Laptop"></div>
+          <div class="field"><label for="productCategory">Category *</label><select id="productCategory" required><option value="">Select category</option><option>Electronics</option><option>Accessories</option><option>Furniture</option><option>Other</option></select></div>
+          <div class="field"><label for="productPrice">Selling Price (₹) *</label><input id="productPrice" type="number" min="0.01" step="0.01" required></div>
+          <div class="field"><label for="purchaseCost">Purchase Cost per Unit (₹) *</label><input id="purchaseCost" type="number" min="0" step="0.01" required></div>
+          <div class="field"><label for="productStock">Available Quantity *</label><input id="productStock" type="number" min="0" step="1" required></div>
+          <div class="field"><label for="productSupplier">Supplier</label><select id="productSupplier"><option value="">No supplier selected</option></select></div>
+          <div class="field full"><label for="productImage">Product Image URL (optional)</label><input id="productImage" type="url" placeholder="https://example.com/product.jpg"></div>
+          <div class="form-actions"><button class="btn primary" type="submit" id="saveProductBtn">＋ Add Product</button><button class="btn light" type="button" id="cancelProductEdit" hidden>Cancel</button></div>
+          <p id="productMessage" class="message full" role="status"></p>
+        </form>
+      </div>
+      <div class="panel">
+        <div class="toolbar"><h3>All Products</h3><input id="productSearch" class="control search" type="search" placeholder="Search products..."><select id="productCategoryFilter" class="control"><option value="">All categories</option><option>Electronics</option><option>Accessories</option><option>Furniture</option><option>Other</option></select></div>
+        <div id="productGrid" class="product-grid"></div>
+        <p id="productEmpty" class="empty" hidden>No products found. Add a product above.</p>
+      </div>
+    </section>
+
+    <section id="suppliers" class="section">
+      <div class="section-heading"><div><h2>Supplier Management</h2><p>Keep supplier contact details organized.</p></div></div>
+      <div class="panel">
+        <h3 id="supplierFormTitle">Add Supplier</h3>
+        <form id="supplierForm" class="form-grid">
+          <input id="supplierId" type="hidden">
+          <div class="field"><label for="supplierName">Supplier Name *</label><input id="supplierName" required minlength="2"></div>
+          <div class="field"><label for="supplierCompany">Company Name *</label><input id="supplierCompany" required></div>
+          <div class="field"><label for="supplierPhone">Phone Number *</label><input id="supplierPhone" type="tel" required pattern="[0-9+\s()-]{7,20}" placeholder="Contact number"></div>
+          <div class="field"><label for="supplierEmail">Email Address</label><input id="supplierEmail" type="email" placeholder="supplier@example.com"></div>
+          <div class="field full"><label for="supplierAddress">Address *</label><textarea id="supplierAddress" rows="2" required></textarea></div>
+          <div class="form-actions"><button class="btn primary" type="submit" id="saveSupplierBtn">＋ Add Supplier</button><button class="btn light" type="button" id="cancelSupplierEdit" hidden>Cancel</button></div>
+          <p id="supplierMessage" class="message full" role="status"></p>
+        </form>
+      </div>
+      <div class="panel">
+        <div class="toolbar"><h3>Registered Suppliers</h3><input id="supplierSearch" class="control search" type="search" placeholder="Search suppliers..."></div>
+        <div class="table-wrap"><table><thead><tr><th>Supplier</th><th>Company</th><th>Phone</th><th>Email</th><th>Address</th><th>Actions</th></tr></thead><tbody id="supplierTableBody"></tbody></table></div>
+        <p id="supplierEmpty" class="empty" hidden>No suppliers added yet.</p>
+      </div>
+    </section>
+
+    <section id="sales" class="section">
+      <div class="section-heading"><div><h2>Sales Management</h2><p>Record sales, calculate discounts and automatically reduce stock.</p></div></div>
+      <div class="panel">
+        <h3>Create Sale</h3>
+        <form id="saleForm" class="form-grid">
+          <div class="field"><label for="saleCustomer">Customer Name *</label><input id="saleCustomer" required minlength="2"></div>
+          <div class="field"><label for="salePhone">Customer Phone</label><input id="salePhone" type="tel" placeholder="Optional phone"></div>
+          <div class="field"><label for="saleProduct">Product *</label><select id="saleProduct" required><option value="">Select product</option></select></div>
+          <div class="field"><label for="saleQuantity">Quantity *</label><input id="saleQuantity" type="number" min="1" step="1" value="1" required></div>
+          <div class="field"><label for="salePrice">Unit Selling Price (₹)</label><input id="salePrice" readonly></div>
+          <div class="field"><label for="saleDate">Sale Date *</label><input id="saleDate" type="date" required></div>
+          <div class="field"><label for="saleDiscount">Discount (₹)</label><input id="saleDiscount" type="number" min="0" step="0.01" value="0" required></div>
+          <div class="field"><label for="saleStockInfo">Available Stock</label><input id="saleStockInfo" readonly></div>
+          <div class="bill-box full">
+            <div><span>Subtotal</span><strong id="saleSubtotal">₹0.00</strong></div>
+            <div><span>Discount</span><strong id="saleDiscountDisplay">₹0.00</strong></div>
+            <div class="bill-total"><span>Final Amount</span><strong id="saleFinalAmount">₹0.00</strong></div>
+          </div>
+          <div class="form-actions"><button class="btn primary" type="submit">✓ Confirm Sale</button></div>
+          <p id="saleMessage" class="message full" role="status"></p>
+        </form>
+      </div>
+      <div class="panel">
+        <div class="toolbar"><h3>Sales History</h3><input id="salesSearch" class="control search" type="search" placeholder="Search customer or invoice..."><input id="salesDateFilter" class="control" type="date" aria-label="Filter sales by date"></div>
+        <div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Customer</th><th>Product</th><th>Qty</th><th>Subtotal</th><th>Discount</th><th>Final Amount</th><th>Date</th><th>Action</th></tr></thead><tbody id="salesTableBody"></tbody></table></div>
+        <p id="salesEmpty" class="empty" hidden>No sales recorded yet.</p>
+      </div>
+      <div class="panel" id="invoicePanel" hidden><div class="panel-heading"><h3>Invoice</h3><button class="btn primary" id="printInvoice" type="button">Print Invoice</button></div><div id="invoiceContent"></div></div>
+    </section>
+
+    <section id="expenses" class="section">
+      <div class="section-heading"><div><h2>Expense Management</h2><p>Track operating expenses and monthly spending.</p></div></div>
+      <div class="stats-grid expense-stats">
+        <article class="stat-card"><span>Total Expenses</span><h2 id="totalExpenses">₹0</h2></article>
+        <article class="stat-card"><span>This Month</span><h2 id="monthlyExpenses">₹0</h2></article>
+        <article class="stat-card"><span>Expense Records</span><h2 id="expenseCount">0</h2></article>
+      </div>
+      <div class="panel">
+        <h3 id="expenseFormTitle">Add Expense</h3>
+        <form id="expenseForm" class="form-grid">
+          <input id="expenseId" type="hidden">
+          <div class="field"><label for="expenseTitle">Expense Title *</label><input id="expenseTitle" required minlength="2" placeholder="Office rent"></div>
+          <div class="field"><label for="expenseCategory">Category *</label><select id="expenseCategory" required><option value="">Select category</option><option>Rent</option><option>Transport</option><option>Salary</option><option>Electricity</option><option>Other</option></select></div>
+          <div class="field"><label for="expenseAmount">Amount (₹) *</label><input id="expenseAmount" type="number" min="0.01" step="0.01" required></div>
+          <div class="field"><label for="expenseDate">Expense Date *</label><input id="expenseDate" type="date" required></div>
+          <div class="field full"><label for="expenseDescription">Description *</label><textarea id="expenseDescription" required minlength="3" rows="2"></textarea></div>
+          <div class="form-actions"><button class="btn primary" id="saveExpenseBtn" type="submit">＋ Save Expense</button><button class="btn light" id="cancelExpenseEdit" type="button" hidden>Cancel</button></div>
+          <p id="expenseMessage" class="message full" role="status"></p>
+        </form>
+      </div>
+      <div class="panel">
+        <div class="toolbar"><h3>Expense Records</h3><input id="expenseSearch" class="control search" type="search" placeholder="Search by title..."><select id="expenseCategoryFilter" class="control"><option value="">All categories</option><option>Rent</option><option>Transport</option><option>Salary</option><option>Electricity</option><option>Other</option></select><input id="expenseDateFilter" class="control" type="date" aria-label="Filter expenses by date"></div>
+        <div class="table-wrap"><table><thead><tr><th>Title</th><th>Category</th><th>Amount</th><th>Date</th><th>Description</th><th>Actions</th></tr></thead><tbody id="expenseTableBody"></tbody></table></div>
+        <p id="expenseEmpty" class="empty" hidden>No expenses recorded yet.</p>
+      </div>
+    </section>
+
+    <section id="profitReport" class="section">
+      <div class="section-heading"><div><h2>Profit Report</h2><p>Calculated using saved sales, product purchase costs and expenses.</p></div></div>
+      <div class="panel">
+        <div class="report-grid">
+          <article class="report-item"><span>Total Sales Revenue</span><strong id="reportRevenue">₹0</strong></article>
+          <article class="report-item"><span>Total Discounts</span><strong id="reportDiscounts">₹0</strong></article>
+          <article class="report-item"><span>Cost of Goods Sold (COGS)</span><strong id="reportCogs">—</strong></article>
+          <article class="report-item"><span>Other Expenses</span><strong id="reportExpenses">₹0</strong></article>
+          <article class="report-item profit"><span>Estimated Profit</span><strong id="reportProfit">Unavailable</strong></article>
+        </div>
+        <p id="profitNote" class="report-note">Profit needs recorded purchase costs for every sold product.</p>
+      </div>
+    </section>
+    <footer class="footer">InventoryPro · Records are saved in your browser.</footer>
+  </main>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
